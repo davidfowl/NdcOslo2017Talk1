@@ -1,0 +1,23 @@
+﻿@page
+@model IndexModel
+
+<h2>Customers</h2>
+
+@if (Model.ShowMessage)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        @Model.Message
+    </div>
+}
+
+<form method="post">
+    <ul>
+        @foreach (var customer in Model.Customers)
+        {
+            <li>@customer.FirstName @customer.LastName <button asp-page-handler="Delete" asp-route-id="@customer.ID" class="btn btn-danger btn-xs">delete</button></li>
+        }
+    </ul>
+</form>
+
+<a asp-page="./Create" class="btn btn-default">Create</a>

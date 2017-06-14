@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MyRazorPagesApp.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace MyRazorPagesApp
 {
@@ -27,6 +30,8 @@ namespace MyRazorPagesApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("demo"));
+
             services.AddCookieAuthentication();
             services.AddAuthentication(options =>
             {
@@ -50,6 +55,8 @@ namespace MyRazorPagesApp
             services.AddMvc();
             services.AddSingleton<IHostedService, RequestCounter>();
             services.AddSingleton<RequestCount>();
+
+            services.AddScoped<ITagHelperComponent, HelloWorldTagHelperComponent>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, RequestCount count)
